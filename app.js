@@ -66,7 +66,10 @@ var Func = {
             }
         }
     },
-	
+
+    /**
+     *  Комментарии ко вкладам
+     */
 	getAFsimpleComment: {
         label: function(){
             return i18n('comment');
