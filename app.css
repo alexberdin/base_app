@@ -1,0 +1,12 @@
+.panel-default { 
+	clear: both;
+	margin: 10px !important;
+	border-color: #ddd !important;
+}
+.btn {
+	padding: 8px 15px !important;
+}
+
+#login-button{
+	display: block;
+}

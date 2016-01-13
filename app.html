@@ -1,0 +1,362 @@
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="http://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
+<title>BankerBurg</title>
+</head>
+<!-- LAYOUT -->
+<template name="layout">
+<script>
+	/**
+		Todo выяснить почему не работает выпадающий список меню
+	*/	
+    window.onload= function() {
+		$("#user-city").text(ymaps.geolocation.city); 		
+	}
+</script> 
+	{{#if postLayoutView}}
+		{{> postLayout}}
+	{{else}}
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-3 col-md-2"></div>
+				<div class="col-xs-12 col-sm-6 col-md-8">
+					{{> yield}}
+				</div>
+				<div class="col-xs-3 col-md-2"></div>
+			</div>
+		</div>
+	{{/if}}
+</template>
+<template name="postLayout">
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="{{pathFor 'Main'}}">{{i18n "siteName"}}</a>
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+		<div class="navbar-collapse collapse">
+			{{> mainMenu}}
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="##"></a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">					
+				<li><a href="##"><div id="user-city"></div></a></li>
+				<li><a href="##">{{> connectionTpl}}</a></li>
+				{{> localisation}}
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				{{> loginButtons}} <!-- here -->
+			</ul>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-3 col-md-2"></div>
+				<div class="col-xs-12 col-sm-6 col-md-8">
+					{{> yield}}
+				</div>
+			<div class="col-xs-3 col-md-2"></div>
+		</div>
+	</div>
+</template>
+<!-- END LAYOUT -->
+<!-- INCLUDES -->
+<template name="localisation">
+	<li class="dropdown">	
+		 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+			en/<span class="caret"></span>
+		 </a>
+		 <ul class="dropdown-menu">
+			<li><a id="ru" href="##">ru</a></li>
+			<li><a id="en" href="##">en</a></li>
+		 </ul>
+	</li>
+</template>
+<template name="accessDenied">
+	<div class="access-denied jumbotron">
+		<h2>Access Denied</h2>
+	</div>
+</template>
+<template name="loading">
+	<div style="margin-top:50%;">
+		{{> spinner}}
+	</div>
+</template>
+<template name="connectionTpl">
+	{{#if status}}
+		<span class="label label-success" title="{{i18n 'connectToServer'}}">
+			&nbsp;	
+			<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+			&nbsp;
+		</span>		
+	{{else}}
+		<span class="label label-danger" title="{{i18n 'notConnectToServer'}}">
+			&nbsp;
+			<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+			&nbsp;
+		</span>	
+	{{/if}}		
+</template>
+<template name="mainMenu">
+	<ul class="nav navbar-nav">
+				{{#if currentUser}}					
+					<li><a class="" href="##"></a></li>
+					<li class="dropdown">
+					  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<span class="glyphicon glyphicon-list" aria-hidden="true"></span><span class="caret"></span>
+					  </a>
+					  <ul class="dropdown-menu">
+						<li><a class="" href="{{pathFor 'Main'}}">{{i18n "goScoring"}}</a></li>
+						
+						<li><a class="" href="{{pathFor 'addScoringProject'}}">{{i18n "createProject"}}</a></li>
+						<li><a class="" href="{{pathFor 'addScoringQuestion'}}">{{i18n "createIssue"}}</a></li>
+						
+						<li><a class="" href="{{pathFor 'scoringQuestionList'}}">{{i18n "listOfQuestions"}}</a></li>
+						<li><a class="" href="{{pathFor 'scoringProjectList'}}">{{i18n "listOfProjects"}}</a></li>
+												
+						<li><a class="" href="{{pathFor 'bankList'}}">{{i18n "bankList"}}</a></li>
+						<li><a class="" href="{{pathFor 'addBank'}}">{{i18n "addBank"}}</a></li>
+						
+						<li><a class="" href="{{pathFor 'bankAddressesList'}}">{{i18n "bankAddressesList"}}</a></li>
+						<li><a class="" href="{{pathFor 'addBankAddresses'}}">{{i18n "addBankAddresses"}}</a></li>
+						
+						<li><a class="" href="{{pathFor 'bankDepositList'}}">{{i18n "bankDepositList"}}</a></li>
+						<li><a class="" href="{{pathFor 'addBankDeposit'}}">{{i18n "addBankDeposit"}}</a></li>
+						
+						<li><a class="" href="{{pathFor 'countryList'}}">{{i18n "countryList"}}</a></li>
+						<li><a class="" href="{{pathFor 'cityList'}}">{{i18n "cityList"}}</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="#">Separated link</a></li>
+					  </ul>
+					</li>
+				{{/if}}
+			</ul>
+</template>
+<!-- END INCLUDES -->
+<template name="Main">
+	<div class=row>
+		<div class="col-xs-12 col-sm-6 col-md-8">
+			<h2>{{i18n "clickOnLinksYouRequirePassScoring"}}</h2>
+		</div>
+	</div>
+	{{#each scoringProjects}}
+		<a class="btn btn-large btn-success" href="{{pathFor 'scoringPass'}}">{{title}}</a>
+		<br>
+		<br>
+	{{/each}}
+</template>
+<template name="scoringPass">
+	<div class=row>
+		<div class="col-xs-12 col-sm-6 col-md-8">
+			<h2>{{i18n "answerTheQuestionsMakingBankLoan"}}</h2>
+		</div>
+	</div>
+	<br>
+	<div class=row>
+		{{#each structure.questions}}
+			{{> scoringPassItem}}
+		{{/each}}
+	</div>
+	<br>
+	<br>
+	<div class=row>
+		<div class="col-xs-12 col-sm-6 col-md-8">
+			<button type="button" id="scoreResultButton" class="btn btn-success btn-lg">{{i18n "next"}}</button>
+		</div>
+	</div>
+	<br>
+</template>
+<template name="scoringPassItem">
+	<div class="col-xs-12 col-sm-6 col-md-8">
+		<h3>{{scoringQuestion.title}} ?</h3>
+		<div class="btn-group-horisontal" data-toggle="buttons">
+			{{#each scoringQuestion.answers}}
+				<label class="btn btn-primary btn-block btn-lg">
+					<input type="radio" name="answerId" id="answerButton" data-id="{{points}}" autocomplete="off" checked>
+						{{text}}
+				</label>
+			{{/each}}
+		</div>
+	</div>
+</template>
+<template name="resultMessage">
+<h3>{{resultMessage}}</h3>
+<br>
+<br>
+<a href='{{pathFor "Main"}}' class='btn btn-raised btn-material-green btn-lg'>{{i18n "toHome"}}</a>
+</template>
+<template name="addScoringProject">
+	<br>
+	{{#if currentUser}}
+		<!--{{> quickForm collection="ScoringProject" id="insertScoringProject" type="insert"-->
+		<!--fields="title,type,humanFrendlyUrl,structure,rangePointMessage"}}-->
+		{{#autoForm collection=ScoringProjectCollection id="insertScoringProject" type="insert"}}
+			{{> afQuickField name='title'}}
+			{{> afQuickField name='type'}}
+			{{> afQuickField name='humanFrendlyUrl'}}
+			{{> afQuickField name='structure'}}
+			{{> afQuickField name='rangePointMessage'}}
+			
+			{{> saveButton}}
+		{{/autoForm}}
+	{{/if}}
+</template>
+<template name="addScoringQuestion">
+	<br>
+	{{#if currentUser}}
+		{{#autoForm collection=ScoringQuestionCollection id="insertScoringQuestion" type="insert"}}
+			{{> afQuickField name='title'}}
+			{{> afQuickField name='adminComment'}}
+			{{> afQuickField name='answers'}}
+			
+			{{> saveButton}}
+		{{/autoForm}}
+	{{/if}}
+</template>
+<template name="addBank"> 
+<br>
+	{{#if currentUser}}
+		{{#autoForm collection=BankCollection id="insertBank" type="insert"}}
+			{{> afQuickField name='title'}}
+			{{> afQuickField name='urlName'}}
+			{{> afQuickField name='description'}}
+			{{> afQuickField name='phones'}}
+			{{> afQuickField name='linkToBank'}}
+				
+			{{> saveButton}}
+		{{/autoForm}}
+	{{/if}}
+</template>
+
+<template name="updateBank"> 
+<br>
+	{{#if currentUser}}
+		{{#autoForm collection=BankCollection doc=this id="updateBank" type="update"}}
+			{{> afQuickField name='title'}}
+			{{> afQuickField name='urlName'}}
+			{{> afQuickField name='description'}}
+			{{> afQuickField name='phones'}}
+			{{> afQuickField name='linkToBank'}}
+			
+			{{> saveButton}}
+		{{/autoForm}}
+	{{/if}}
+</template>
+
+
+<template name="addBankAddresses"> 
+<br>
+	{{#if currentUser}}
+		{{#autoForm collection=BankAddressesCollection id="insertBankAddresses" type="insert"}}
+			{{> afQuickField name='bankId'}}
+			{{> afQuickField name='addresses'}}
+				
+			{{> saveButton}}
+		{{/autoForm}}
+	{{/if}}
+</template>
+
+<template name="updateBankAddresses"> 
+<br>
+	{{#if currentUser}}
+		{{#autoForm collection=BankAddressesCollection doc=this id="updateBankAddresses" type="update"}}
+			{{> afQuickField name='bankId'}}
+			{{> afQuickField name='addresses'}}		
+
+			{{> saveButton}}
+		{{/autoForm}}
+	{{/if}}
+</template>
+
+<template name="viewBank">
+	<div class=row>
+		<div class="col-xs-12 col-sm-6 col-md-8">
+			<h3>{{this.title}}</h3>
+		</div>
+	</div>
+	<div class=row>
+		<div class="col-xs-12 col-sm-6 col-md-8">
+			{{this.description}}
+		</div>
+	</div>
+</template>
+
+
+<template name="addBankDeposit"> 
+<br>
+	{{#if currentUser}}
+		{{#autoForm collection=BankDepositCollection id="insertBankDeposit" type="insert"}}
+			{{> afQuickField name='bankId'}}
+			{{> afQuickField name='deposits'}}
+				
+			{{> saveButton}}
+		{{/autoForm}}
+	{{/if}}
+</template>
+
+<template name="updateBankDeposit"> 
+<br>
+	{{#if currentUser}}
+		{{#autoForm collection=BankDepositCollection doc=this id="updateBankDeposit" type="update"}}
+			{{> afQuickField name='bankId'}}
+			{{> afQuickField name='deposits'}}
+
+			{{> saveButton}}
+		{{/autoForm}}
+	{{/if}}
+</template>
+
+
+<template name="scoringQuestionList">
+	<br>
+	{{#if currentUser}}
+		{{> reactiveTable settings=settings}}
+	{{/if}}
+</template>
+<template name="scoringProjectList">
+	<br>
+	{{#if currentUser}}
+		{{> reactiveTable settings=settings}}
+	{{/if}}
+</template>
+<template name="countryList">
+	<br>
+	{{#if currentUser}}
+		{{> reactiveTable settings=settings}}
+	{{/if}}
+</template>
+<template name="cityList">
+	<br>
+	{{#if currentUser}}
+		{{> reactiveTable settings=settings}}
+	{{/if}}
+</template>
+<template name="bankAddressesList">
+	<br>
+	{{#if currentUser}}
+		{{> reactiveTable settings=settings}}
+	{{/if}}
+</template>
+<template name="bankDepositList">
+	<br>
+	{{#if currentUser}}
+		{{> reactiveTable settings=settings}}
+	{{/if}}
+</template>
+<template name="bankList">
+<br>
+	{{#if currentUser}}
+		{{> reactiveTable settings=settings}}
+	{{/if}}
+</template>  
+
+<template name="saveButton">
+	<div><button type="submit" class="btn btn-primary">{{i18n "save"}}</button></div>
+</template>
