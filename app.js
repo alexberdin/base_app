@@ -518,7 +518,7 @@ CityListSchema = new SimpleSchema({
                 return arrLabels;
             }
         }
-    },	
+    }
 });
 
 CityList.attachSchema(CityListSchema);
@@ -583,7 +583,7 @@ BankAddressesSchema = new SimpleSchema({
 		label:  function(){
             return i18n('phones');
         },
-		optional: false,		
+		optional: false
     },
 	
 	'addresses.$.regionAddresses.$.phones.numbers': {
@@ -634,7 +634,7 @@ BankListSchema = new SimpleSchema({
 		label:  function(){
             return i18n('phones');
         },
-		optional: false,		
+		optional: false
 	},
 	
 	'phones.general': {
@@ -642,7 +642,7 @@ BankListSchema = new SimpleSchema({
 		label:  function(){
             return i18n('general');
         },
-		optional: false,		
+		optional: false
 	},
 	
 	linkToBank: {
@@ -686,7 +686,7 @@ BankDepositSchema = new SimpleSchema({
             return i18n('rates');
         },
 		optional: false,
-        type: [Object], 
+        type: [Object]
     }, 
 	
 	'deposits.$.rates.$.currency': {
@@ -868,7 +868,7 @@ BankDepositSchema = new SimpleSchema({
 		autoform: Func.getAFSelectAvalible()
     },
 	
-	'deposits.$.added.comment': Func.getAFsimpleComment,
+	'deposits.$.added.comment': Func.getAFsimpleComment
 });
 
 BankDeposit.attachSchema(BankDepositSchema);
@@ -956,12 +956,12 @@ if (Meteor.isServer) {
 	
 	  CityList.insert({
 		title:'Саратов',
-		countryId: Country._id,
+		countryId: Country._id
 	  });
 	  
 	  CityList.insert({
 		title:'Москва',
-		countryId: Country._id,
+		countryId: Country._id
 	  });
 	  
 	}
