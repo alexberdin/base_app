@@ -139,6 +139,9 @@ BankDeposit = new Meteor.Collection('bankDeposit');
 
 BankAddresses = new Meteor.Collection('bankAddresses');
 
+////// END COLLECTIONS  /////////////
+
+////// SCHEMAS  /////////////
 
 ScoringProjectStructureSchema = new SimpleSchema({
 
@@ -876,6 +879,9 @@ BankDepositSchema = new SimpleSchema({
 
 BankDeposit.attachSchema(BankDepositSchema);
 
+////// END SCHEMAS  /////////////
+
+
 if (Meteor.isServer) {
 
     ////// PERMISSIONS ///////////////////////
@@ -909,10 +915,6 @@ if (Meteor.isServer) {
         return CountryList.find(find, options);
     });
 
-    Meteor.publish("BankList", function (find, options) {
-        return BankList.find(find, options);
-    });
-
     Meteor.publish("CityList", function (find, options) {
         return CityList.find(find, options);
     });
@@ -925,12 +927,17 @@ if (Meteor.isServer) {
         return BankDeposit.find(find, options);
     });
 
+    Meteor.publish("BankList", function (find, options) {
+        return BankList.find(find, options);
+    });
+
+
     Meteor.startup(function () {
 
 
         smtp = {
             username: 'mr.berdin@inbox.ru',
-            password: '89372532600Ab',
+            password: '*******',
             server: 'smtp.mail.ru',
             port: 465
         }
