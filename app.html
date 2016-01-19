@@ -7,10 +7,10 @@
 <template name="layout">
 <script>
 	/**
-		Todo выяснить почему не работает выпадающий список меню
+		Местонахождение
 	*/	
-    window.onload= function() {
-		$("#user-city").text(ymaps.geolocation.city); 		
+    window.onload = function() {
+		$("#user-city").text(ymaps.geolocation.city);
 	}
 </script> 
 	{{#if postLayoutView}}
@@ -71,7 +71,7 @@
 <template name="localisation">
 	<li class="dropdown">	
 		 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-			en/<span class="caret"></span>
+			{{lang}}/<span class="caret"></span>
 		 </a>
 		 <ul class="dropdown-menu">
 			<li><a id="ru" href="##">ru</a></li>
@@ -284,6 +284,12 @@
 	<div class=row>
 		<div class="col-xs-12 col-sm-6 col-md-8">
 			{{this.description}}
+		</div>
+	</div>
+    <hr>
+    <div class=row>
+		<div class="col-xs-12 col-sm-6 col-md-8">
+			{{this.phones.general}}
 		</div>
 	</div>
 </template>
